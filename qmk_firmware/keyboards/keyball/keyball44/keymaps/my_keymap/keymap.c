@@ -20,37 +20,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "quantum.h"
 
-// Right trackball layout (standard Keyball44).
-// Migrated from the official default/via keymap (Remap factory defaults).
+// Right trackball layout (LAYOUT = LAYOUT_right_ball).
+// Keymap migrated from Remap EEPROM dump: remap_dump/keyball44_keymap_dump.txt
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT(
-    KC_ESC   , KC_Q     , KC_W     , KC_E     , KC_R     , KC_T     ,                                        KC_Y     , KC_U     , KC_I     , KC_O     , KC_P     , KC_DEL   ,
-    KC_TAB   , KC_A     , KC_S     , KC_D     , KC_F     , KC_G     ,                                        KC_H     , KC_J     , KC_K     , KC_L     , KC_SCLN  , S(KC_7)  ,
-    KC_LSFT  , KC_Z     , KC_X     , KC_C     , KC_V     , KC_B     ,                                        KC_N     , KC_M     , KC_COMM  , KC_DOT   , KC_SLSH  , KC_INT1  ,
-              KC_LALT  , KC_LGUI  , LCTL_T(KC_LNG2), LT(1, KC_SPC), LT(3, KC_LNG1),                  KC_BSPC, LT(2, KC_ENT), RCTL_T(KC_LNG2)
+    KC_ESC   , KC_Q     , KC_W     , 0x2108   , KC_R     , KC_T     ,                                        KC_Y     , KC_U     , 0x310C   , KC_O     , KC_P     , KC_BSPC  ,
+    KC_TAB   , 0x2104   , 0x2416   , 0x4207   , 0x4109   , 0x430A   ,                                        0x430B   , 0x410D   , 0x420E   , 0x240F   , 0x3133   , 0x0034   ,
+    0x00D3   , 0x281D   , 0x231B   , KC_C     , KC_V     , KC_B     ,                                        KC_N     , KC_M     , KC_COMM  , KC_DOT   , 0x2838   , 0x0087   ,
+              0x0088   , 0x0091   , 0x00D2   , 0x00D1   , 0x222C   ,                                        KC_ENT   , KC_LSFT  , 0x004C
   ),
 
   [1] = LAYOUT(
-    SSNP_FRE , KC_F1    , KC_F2    , KC_F3    , KC_F4    , KC_F5    ,                                        KC_F6    , KC_F7    , KC_F8    , KC_F9    , KC_F10   , KC_F11   ,
-    SSNP_VRT , _______  , _______  , KC_UP    , KC_ENT   , KC_DEL   ,                                        KC_PGUP  , KC_BTN1  , KC_UP    , KC_BTN2  , KC_BTN3  , KC_F12   ,
-    SSNP_HOR , _______  , KC_LEFT  , KC_DOWN  , KC_RGHT  , KC_BSPC  ,                                        KC_PGDN  , KC_LEFT  , KC_DOWN  , KC_RGHT  , _______  , _______  ,
-              _______  , _______  , _______  , _______  , _______  ,                                        _______  , _______  , _______
+    0x00A8   , 0x001E   , 0x001F   , 0x0020   , 0x0021   , 0x0022   ,                                        0x0023   , 0x0024   , 0x0025   , 0x0026   , 0x0027   , 0x002E   ,
+    0x0282   , KC_TAB   , 0x0450   , 0x012B   , 0x032B   , 0x144F   ,                                        0x0050   , 0x0051   , 0x0052   , 0x004F   , 0x002D   , 0x0045   ,
+    0x00AA   , 0x00DB   , 0x0850   , 0x0852   , 0x0851   , 0x01E3   ,                                        0x0450   , 0x0080   , 0x00AE   , 0x044F   , _______  , _______  ,
+              _______  , 0x00DA   , KC_ESC   , KC_BSPC  , 0x004C   ,                                        KC_NO    , KC_NO    , _______
   ),
 
   [2] = LAYOUT(
-    _______  , S(KC_QUOT), KC_7    , KC_8     , KC_9     , S(KC_8)  ,                                        S(KC_9)  , S(KC_1)  , S(KC_6)  , KC_LBRC  , S(KC_4)  , _______  ,
-    _______  , S(KC_SCLN), KC_4     , KC_5     , KC_6     , KC_RBRC  ,                                        KC_NUHS  , KC_MINS  , S(KC_EQL), S(KC_3)  , KC_QUOT  , S(KC_2)  ,
-    _______  , S(KC_MINS), KC_1     , KC_2     , KC_3     , S(KC_RBRC),                                       S(KC_NUHS), S(KC_INT1), KC_EQL  , S(KC_LBRC), S(KC_SLSH), S(KC_INT3),
-              KC_0     , KC_DOT   , _______  , _______  , _______  ,                                        KC_DEL   , _______  , _______
+    _______  , 0x021E   , 0x021F   , 0x0220   , 0x0221   , 0x0222   ,                                        0x0223   , 0x0224   , 0x0225   , 0x0226   , 0x022E   , _______  ,
+    _______  , 0x002F   , 0x002E   , 0x0289   , KC_NO    , KC_NO    ,                                        KC_NO    , 0x022F   , 0x0230   , 0x0231   , 0x022D   , 0x021F   ,
+    _______  , KC_NO    , KC_NO    , 0x0149   , 0x0249   , KC_NO    ,                                        KC_NO    , KC_NO    , 0x0030   , 0x0031   , 0x0238   , 0x0289   ,
+              0x0027   , KC_DOT   , 0x0090   , 0x0091   , 0x0091   ,                                        0x0950   , 0x094F   , _______
   ),
 
   [3] = LAYOUT(
-    RGB_TOG  , AML_TO   , AML_I50  , AML_D50  , _______  , _______  ,                                        RGB_M_P  , RGB_M_B  , RGB_M_R  , RGB_M_SW , RGB_M_SN , RGB_M_K  ,
-    RGB_MOD  , RGB_HUI  , RGB_SAI  , RGB_VAI  , _______  , SCRL_DVI ,                                        RGB_M_X  , RGB_M_G  , RGB_M_T  , RGB_M_TW , _______  , _______  ,
-    RGB_RMOD , RGB_HUD  , RGB_SAD  , RGB_VAD  , _______  , SCRL_DVD ,                                        CPI_D1K  , CPI_D100 , CPI_I100 , CPI_I1K  , _______  , KBC_SAVE ,
-              QK_BOOT  , KBC_RST  , _______  , _______  , _______  ,                                        _______  , KBC_RST  , QK_BOOT
+    0x7820   , 0x003A   , 0x003B   , 0x003C   , 0x003D   , 0x003E   ,                                        0x003F   , 0x0040   , 0x0041   , 0x0042   , 0x0043   , 0x0044   ,
+    0x7821   , 0x7823   , 0x7825   , 0x7827   , _______  , 0x7E08   ,                                        0x7831   , 0x7832   , 0x7833   , 0x7834   , _______  , _______  ,
+    0x7822   , 0x7824   , 0x7826   , 0x7828   , _______  , 0x7E09   ,                                        0x7E05   , 0x7E03   , 0x7E02   , 0x7E04   , _______  , 0x7E01   ,
+              0x7C00   , 0x7E00   , _______  , _______  , _______  ,                                        0x0090   , 0x0091   , 0x7C00
   ),
 };
 // clang-format on
