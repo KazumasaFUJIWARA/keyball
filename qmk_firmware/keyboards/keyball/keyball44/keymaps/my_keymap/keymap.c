@@ -20,7 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "quantum.h"
 
-// L2: D hold; Q/W/R=MO(3)/MO(4)/MO(5), F/G=language. L3-L5 Unicode, L6 Settings.
+// L2: symbols preserved; OSL(3/4/5) on former KC_NO slots (row2 left).
+// OSL = one-shot: tap once under D-hold, then next key uses L3/L4/L5.
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -39,9 +40,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [2] = LAYOUT(
-    _______  , MO(3)    , MO(4)    , MO(5)    , 0x0221   , 0x0222   ,                                        0x0223   , 0x0224   , 0x0225   , 0x0226   , 0x022E   , _______  ,
+    _______  , 0x021E   , 0x021F   , 0x0220   , 0x0221   , 0x0222   ,                                        0x0223   , 0x0224   , 0x0225   , 0x0226   , 0x022E   , _______  ,
     _______  , 0x002F   , 0x002E   , 0x0289   , 0x0090   , 0x0091   ,                                        KC_NO    , 0x022F   , 0x0230   , 0x0231   , 0x022D   , 0x021F   ,
-    _______  , KC_NO    , KC_NO    , 0x0149   , 0x0249   , KC_NO    ,                                        KC_NO    , KC_NO    , 0x0030   , 0x0031   , 0x0238   , 0x0289   ,
+    _______  , OSL(3)   , OSL(4)   , 0x0149   , 0x0249   , OSL(5)   ,                                        KC_NO    , KC_NO    , 0x0030   , 0x0031   , 0x0238   , 0x0289   ,
               0x0027   , KC_DOT   , 0x0090   , 0x0091   , 0x0091   ,                                        0x0950   , 0x094F   , _______
   ),
 
@@ -80,7 +81,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // clang-format on
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-    // Scroll mode on settings layer (L6)
     keyball_set_scroll_mode(get_highest_layer(state) == 6);
     return state;
 }
