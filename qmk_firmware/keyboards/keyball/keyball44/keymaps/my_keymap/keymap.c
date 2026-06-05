@@ -87,7 +87,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 }
 
 void keyboard_post_init_user(void) {
-#ifdef UNICODE_ENABLE
+#ifdef UNICODE_COMMON_ENABLE
     set_unicode_input_mode(UNICODE_MODE_WINCOMPOSE);
 #endif
 }

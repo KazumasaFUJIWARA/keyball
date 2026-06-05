@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define POINTING_DEVICE_AUTO_MOUSE_ENABLE
 #define AUTO_MOUSE_DEFAULT_LAYER 1
 
-#ifdef UNICODE_ENABLE
+#ifdef UNICODE_COMMON_ENABLE
 // Windows: install WinCompose. QMK sends UC_WINC sequences via register_unicode().
 #    define UNICODE_SELECTED_MODES UNICODE_MODE_WINCOMPOSE
 #endif

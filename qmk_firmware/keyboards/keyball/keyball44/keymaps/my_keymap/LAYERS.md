@@ -14,7 +14,7 @@
 
 ## Unicode（QMK 標準 + WinCompose）
 
-- `rules.mk`: `UNICODE_ENABLE`, `UNICODEMAP_ENABLE`
+- `rules.mk`: `UNICODEMAP_ENABLE`
 - `config.h`: `UNICODE_SELECTED_MODES UNICODE_MODE_WINCOMPOSE`（= UC_WINC）
 - 記号定義: `umap.h` / `umap.c` の `unicode_map[]`
 - キーマップ: `X(U_*)` マクロ（例: `X(U_INT)` → ∫）
