@@ -21,57 +21,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "quantum.h"
 
 // L2: F/G=language; thumb 3rd/4th/5th=OSL(3/4/5) Greek/Italian/Math.
-// UC() keys use register_unicode_numpadless() (Alt+decimal on main number row).
+// UC() keys use register_unicode_wincompose() (requires WinCompose on Windows).
 
 #ifndef UNICODE_TYPE_DELAY
 #    define UNICODE_TYPE_DELAY 10
 #endif
 
-static void tap_decimal_digit(uint8_t digit) {
-    tap_code(KC_0 + digit);
+#ifndef UNICODE_KEY_WINC
+#    define UNICODE_KEY_WINC KC_RIGHT_ALT
+#endif
+
+static void tap_hex_nibble(uint8_t digit) {
+    if (digit < 10) {
+        tap_code(KC_0 + digit);
+    } else {
+        tap_code(KC_A + (digit - 10));
+    }
 }
 
-static uint8_t build_alt_decimal_digits(uint16_t code_point, uint8_t *digits) {
-    if (code_point == 0) {
-        digits[0] = 0;
-        return 1;
-    }
-
-    uint8_t len = 0;
-    uint16_t    n   = code_point;
-    while (n > 0 && len < 5) {
-        digits[len++] = n % 10;
-        n /= 10;
-    }
-
-    for (uint8_t i = 0; i < len / 2; i++) {
-        uint8_t tmp           = digits[i];
-        digits[i]             = digits[len - 1 - i];
-        digits[len - 1 - i]   = tmp;
-    }
-
-    // Legacy Alt codes for Latin-1 range use a leading zero (e.g. 0232 for e-grave).
-    if (code_point < 256 && len < 4) {
-        for (int8_t i = (int8_t)len - 1; i >= 0; i--) {
-            digits[i + (4 - len)] = digits[i];
-        }
-        for (uint8_t i = 0; i < 4 - len; i++) {
-            digits[i] = 0;
-        }
-        len = 4;
-    }
-
-    return len;
-}
-
-static void register_unicode_numpadless(uint32_t code_point) {
-    // Decimal Alt codes on the main number row. Avoids Alt+Shift+= which splits WT panes.
+static void register_unicode_wincompose(uint32_t code_point) {
     if (code_point > 0xFFFF) {
         return;
     }
-
-    uint8_t digits[5];
-    uint8_t len = build_alt_decimal_digits((uint16_t)code_point, digits);
 
     uint8_t saved_mods      = get_mods();
     uint8_t saved_weak_mods = get_weak_mods();
@@ -80,13 +51,16 @@ static void register_unicode_numpadless(uint32_t code_point) {
     clear_weak_mods();
     clear_oneshot_mods();
 
-    register_code(KC_LEFT_ALT);
+    tap_code(UNICODE_KEY_WINC);
     wait_ms(UNICODE_TYPE_DELAY);
-    for (uint8_t i = 0; i < len; i++) {
-        tap_decimal_digit(digits[i]);
+    tap_code(KC_U);
+    wait_ms(UNICODE_TYPE_DELAY);
+    for (int i = 3; i >= 0; i--) {
+        tap_hex_nibble((code_point >> (i * 4)) & 0xF);
         wait_ms(UNICODE_TYPE_DELAY);
     }
-    unregister_code(KC_LEFT_ALT);
+    tap_code(KC_ENTER);
+
     set_mods(saved_mods);
     set_weak_mods(saved_weak_mods);
     set_oneshot_mods(saved_oneshot);
@@ -96,8 +70,8 @@ static void register_unicode_numpadless(uint32_t code_point) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed && IS_QK_UNICODE(keycode)) {
 #ifdef UNICODE_ENABLE
-        if (get_unicode_input_mode() == UNICODE_MODE_WINDOWS) {
-            register_unicode_numpadless(QK_UNICODE_GET_CODE_POINT(keycode));
+        if (get_unicode_input_mode() == UNICODE_MODE_WINCOMPOSE) {
+            register_unicode_wincompose(QK_UNICODE_GET_CODE_POINT(keycode));
             return false;
         }
 #endif
@@ -169,7 +143,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
 void keyboard_post_init_user(void) {
 #ifdef UNICODE_ENABLE
-    set_unicode_input_mode(UNICODE_MODE_WINDOWS);
+    set_unicode_input_mode(UNICODE_MODE_WINCOMPOSE);
 #endif
 }
 
