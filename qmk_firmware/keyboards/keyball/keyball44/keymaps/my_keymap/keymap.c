@@ -20,8 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "quantum.h"
 
-// Right trackball layout (LAYOUT = LAYOUT_right_ball).
-// Keymap migrated from Remap EEPROM dump: remap_dump/keyball44_keymap_dump.txt
+// Layer 0-2: remap_dump (unchanged). Layer 3: F=KC_LNG1, G=KC_LNG2.
+// Layer 4 Greek / 5 Italian: hold MO(4) or MO(5) on layer 3 (right home row).
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -48,15 +48,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [3] = LAYOUT(
     0x7820   , 0x003A   , 0x003B   , 0x003C   , 0x003D   , 0x003E   ,                                        0x003F   , 0x0040   , 0x0041   , 0x0042   , 0x0043   , 0x0044   ,
-    0x7821   , 0x7823   , 0x7825   , 0x7827   , _______  , 0x7E08   ,                                        0x7831   , 0x7832   , 0x7833   , 0x7834   , _______  , _______  ,
-    0x7822   , 0x7824   , 0x7826   , 0x7828   , _______  , 0x7E09   ,                                        0x7E05   , 0x7E03   , 0x7E02   , 0x7E04   , _______  , 0x7E01   ,
-              0x7C00   , 0x7E00   , _______  , _______  , _______  ,                                        0x0090   , 0x0091   , 0x7C00
+    0x7821   , 0x7823   , 0x7825   , 0x7827   , KC_LNG1  , KC_LNG2  ,                                        0x7831   , 0x7832   , 0x7833   , 0x7834   , MO(4)    , MO(5)    ,
+    0x7822   , 0x7824   , 0x7826   , 0x7828   , SCRL_DVI , 0x7E09   ,                                        0x7E05   , 0x7E03   , 0x7E02   , 0x7E04   , _______  , 0x7E01   ,
+              0x7C00   , 0x7E00   , _______  , _______  , _______  ,                                        _______  , _______  , 0x7C00
+  ),
+
+  // Layer 4: Greek (lowercase). From layer 3 hold MO(4) on J/K area.
+  [4] = LAYOUT(
+    _______  , _______  , UC(0x03B5), UC(0x03C1), UC(0x03C4), UC(0x03C5),                                        UC(0x03B8), UC(0x03B9), UC(0x03BF), UC(0x03C0), UC(0x03C9), _______  ,
+    _______  , UC(0x03B1), UC(0x03C3), UC(0x03B4), UC(0x03C6), UC(0x03B3),                                        UC(0x03B7), UC(0x03BE), UC(0x03BA), UC(0x03BB), _______  , _______  ,
+    _______  , UC(0x03B6), UC(0x03C7), UC(0x03C8), UC(0x03C9), UC(0x03B2),                                        UC(0x03BD), UC(0x03BC), _______  , _______  , _______  , _______  ,
+              _______  , _______  , _______  , _______  , _______  ,                                        _______  , _______  , _______
+  ),
+
+  // Layer 5: Italian accents. From layer 3 hold MO(5) on J/K area.
+  [5] = LAYOUT(
+    _______  , _______  , _______  , UC(0x00E9), _______  , _______  ,                                        _______  , UC(0x00F9), UC(0x00EC), UC(0x00F2), UC(0x00E1), _______  ,
+    _______  , UC(0x00E0), _______  , _______  , UC(0x00E8), _______  ,                                        _______  , _______  , _______  , _______  , _______  , _______  ,
+    _______  , _______  , _______  , _______  , _______  , _______  ,                                        _______  , _______  , _______  , _______  , _______  , _______  ,
+              _______  , _______  , _______  , _______  , _______  ,                                        _______  , _______  , _______
   ),
 };
 // clang-format on
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-    // Auto enable scroll mode when the highest layer is 3
     keyball_set_scroll_mode(get_highest_layer(state) == 3);
     return state;
 }
