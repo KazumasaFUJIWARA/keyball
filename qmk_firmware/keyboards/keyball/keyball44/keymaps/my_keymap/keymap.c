@@ -19,65 +19,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 
 #include "quantum.h"
+#include "unicode.h"
 
 // L2: F/G=language; thumb 3rd/4th/5th=OSL(3/4/5) Greek/Italian/Math.
-// UC() keys use register_unicode_wincompose() (requires WinCompose on Windows).
-
-#ifndef UNICODE_TYPE_DELAY
-#    define UNICODE_TYPE_DELAY 10
-#endif
-
-#ifndef UNICODE_KEY_WINC
-#    define UNICODE_KEY_WINC KC_RIGHT_ALT
-#endif
-
-static void tap_hex_nibble(uint8_t digit) {
-    if (digit < 10) {
-        tap_code(KC_0 + digit);
-    } else {
-        tap_code(KC_A + (digit - 10));
-    }
-}
-
-static void register_unicode_wincompose(uint32_t code_point) {
-    if (code_point > 0xFFFF) {
-        return;
-    }
-
-    uint8_t saved_mods      = get_mods();
-    uint8_t saved_weak_mods = get_weak_mods();
-    uint8_t saved_oneshot   = get_oneshot_mods();
-    clear_mods();
-    clear_weak_mods();
-    clear_oneshot_mods();
-
-    tap_code(UNICODE_KEY_WINC);
-    wait_ms(UNICODE_TYPE_DELAY);
-    tap_code(KC_U);
-    wait_ms(UNICODE_TYPE_DELAY);
-    for (int i = 3; i >= 0; i--) {
-        tap_hex_nibble((code_point >> (i * 4)) & 0xF);
-        wait_ms(UNICODE_TYPE_DELAY);
-    }
-    tap_code(KC_ENTER);
-
-    set_mods(saved_mods);
-    set_weak_mods(saved_weak_mods);
-    set_oneshot_mods(saved_oneshot);
-    send_keyboard_report();
-}
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (record->event.pressed && IS_QK_UNICODE(keycode)) {
-#ifdef UNICODE_ENABLE
-        if (get_unicode_input_mode() == UNICODE_MODE_WINCOMPOSE) {
-            register_unicode_wincompose(QK_UNICODE_GET_CODE_POINT(keycode));
-            return false;
-        }
-#endif
-    }
-    return true;
-}
+// Unicode: QMK UNICODEMAP + UC_WINC (WinCompose on Windows).
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -102,27 +47,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
               0x0027   , KC_DOT   , OSL(3)   , OSL(4)   , OSL(5)   ,                                        0x0950   , 0x094F   , _______
   ),
 
-  // L3: Greek (lowercase Unicode)
+  // L3: Greek (Unicode via X())
   [3] = LAYOUT(
-    _______  , _______  , UC(0x03B5), UC(0x03C1), UC(0x03C4), UC(0x03C5),                                        UC(0x03B8), UC(0x03B9), UC(0x03BF), UC(0x03C0), UC(0x03C9), _______  ,
-    _______  , UC(0x03B1), UC(0x03C3), UC(0x03B4), UC(0x03C6), UC(0x03B3),                                        UC(0x03B7), UC(0x03BE), UC(0x03BA), UC(0x03BB), _______  , _______  ,
-    _______  , UC(0x03B6), UC(0x03C7), UC(0x03C8), UC(0x03C9), UC(0x03B2),                                        UC(0x03BD), UC(0x03BC), _______  , _______  , _______  , _______  ,
+    _______  , _______  , X(U_EPS) , X(U_RHO) , X(U_TAU) , X(U_UPS) ,                                        X(U_THETA), X(U_IOTA), X(U_OMI) , X(U_PI)  , X(U_OMEGA), _______  ,
+    _______  , X(U_ALPHA), X(U_SIGMA), X(U_DELTA), X(U_PHI) , X(U_GAMMA),                                        X(U_ETA) , X(U_XI)  , X(U_KAPPA), X(U_LAMBDA), _______  , _______  ,
+    _______  , X(U_ZETA), X(U_CHI) , X(U_PSI) , X(U_OMEGA), X(U_BETA),                                        X(U_NU)  , X(U_MU)  , _______  , _______  , _______  , _______  ,
               _______  , _______  , _______  , _______  , _______  ,                                        _______  , _______  , _______
   ),
 
-  // L4: Italian accented vowels (Unicode)
+  // L4: Italian accented vowels (Unicode via X())
   [4] = LAYOUT(
-    _______  , _______  , _______  , UC(0x00E9), _______  , _______  ,                                        _______  , UC(0x00F9), UC(0x00EC), UC(0x00F2), UC(0x00E1), _______  ,
-    _______  , UC(0x00E0), _______  , _______  , UC(0x00E8), _______  ,                                        _______  , _______  , _______  , _______  , _______  , _______  ,
+    _______  , _______  , _______  , X(U_E_ACU), _______  , _______  ,                                        _______  , X(U_U_GRV), X(U_I_GRV), X(U_O_GRV), X(U_A_ACU), _______  ,
+    _______  , X(U_A_GRV), _______  , _______  , X(U_E_GRV), _______  ,                                        _______  , _______  , _______  , _______  , _______  , _______  ,
     _______  , _______  , _______  , _______  , _______  , _______  ,                                        _______  , _______  , _______  , _______  , _______  , _______  ,
               _______  , _______  , _______  , _______  , _______  ,                                        _______  , _______  , _______
   ),
 
-  // L5: Math symbols (Unicode)
+  // L5: Math symbols (Unicode via X())
   [5] = LAYOUT(
-    _______  , UC(0x00B1), UC(0x00D7), UC(0x00F7), UC(0x2260), UC(0x2248),                                        UC(0x2264), UC(0x2265), UC(0x221E), UC(0x03C0), UC(0x00B0), _______  ,
-    _______  , UC(0x2200), UC(0x2203), UC(0x2208), UC(0x2211), UC(0x222B),                                        UC(0x221A), UC(0x2202), UC(0x2207), UC(0x2282), UC(0x2229), _______  ,
-    _______  , UC(0x2205), UC(0x222A), UC(0x2295), UC(0x2192), UC(0x2190),                                        UC(0x2194), UC(0x21D2), UC(0x21D4), UC(0x22A5), UC(0x2220), _______  ,
+    _______  , X(U_PM)  , X(U_TIMES), X(U_DIV) , X(U_NEQ) , X(U_APR) ,                                        X(U_LEQ) , X(U_GEQ) , X(U_INFTY), X(U_PI)  , X(U_DEG) , _______  ,
+    _______  , X(U_FORALL), X(U_EXISTS), X(U_IN) , X(U_SUM) , X(U_INT) ,                                        X(U_SQRT), X(U_PART), X(U_NABLA), X(U_SUBSET), X(U_CAP) , _______  ,
+    _______  , X(U_EMPTY), X(U_CUP) , X(U_OPLUS), X(U_RARR), X(U_LARR),                                        X(U_LRARR), X(U_IMPL), X(U_IFF) , X(U_PERP), X(U_ANGLE), _______  ,
               _______  , _______  , _______  , _______  , _______  ,                                        _______  , _______  , _______
   ),
 

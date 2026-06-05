@@ -1,7 +1,5 @@
 # Keyball44 my_keymap — レイヤー対応表
 
-QMK のレイヤー番号は **0 始まり** です。
-
 ## レイヤー一覧
 
 | QMK | 名称 | 開き方 |
@@ -9,33 +7,29 @@ QMK のレイヤー番号は **0 始まり** です。
 | **L0** | ベース | 通常 |
 | **L1** | マウス | F 長押し |
 | **L2** | 記号・言語 | D 長押し |
-| **L3** | ギリシャ文字 | L2 + 親指3番目 OSL |
-| **L4** | イタリア語アクセント | L2 + 親指4番目 OSL |
+| **L3** | ギリシャ | L2 + 親指3番目 OSL |
+| **L4** | イタリア語 | L2 + 親指4番目 OSL |
 | **L5** | 数学記号 | L2 + 親指5番目 OSL |
-| **L6** | 設定（RGB/CPI） | G/H 長押し |
+| **L6** | 設定 | G/H 長押し |
 
-## イタalia語文字を出す手順
+## Unicode（QMK 標準 + WinCompose）
 
-| 順番 | キー |
-|------|------|
-| 1 | **D** 長押し（L2） |
-| 2 | **親指・左から4番目** タップ（OSL(4)） |
-| 3 | 母音キー（例: F → è） |
+- `rules.mk`: `UNICODE_ENABLE`, `UNICODEMAP_ENABLE`
+- `config.h`: `UNICODE_SELECTED_MODES UNICODE_MODE_WINCOMPOSE`（= UC_WINC）
+- 記号定義: `unicode.h` / `unicode.c` の `unicode_map[]`
+- キーマップ: `X(U_*)` マクロ（例: `X(U_INT)` → ∫）
 
-## Unicode（Windows + WinCompose 必須）
-
-Keyball にテンキーがないため、**WinCompose** を使います。
+### Windows 側（必須）
 
 1. [WinCompose](https://github.com/samhocevar/wincompose/releases) をインストール
-2. Windows 配列を **英語(米国)**、**IME オフ**
-3. ファームウェアは `Right Alt + u + 16進 + Enter` を送る（例: è → `u00e8`）
+2. 配列 **英語(米国)**、**IME オフ**
+3. タスクバーで **ENG** を選択
 
-### 過去の失敗パターン
+QMK が WinCompose 向け Unicode 入力シーケンスを送ります。記号そのものを HID で送っているわけではありません。
 
-| 症状 | 原因 |
-|------|------|
-| `+` / WT ペイン分割 | 旧方式 `Alt+Shift+=` が WT ショートカットと衝突 |
-| `0` だけ出る | 旧方式 `Alt+0232` が数字行では効かない |
+### 例: è
+
+`D` → 親指4番目 → `F`（`X(U_E_GRV)` = U+00E8）
 
 ## 書き込み
 
