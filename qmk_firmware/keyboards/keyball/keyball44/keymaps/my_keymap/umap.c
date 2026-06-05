@@ -1,6 +1,6 @@
 #include QMK_KEYBOARD_H
 
-#include "unicode.h"
+#include "umap.h"
 
 const uint32_t PROGMEM unicode_map[] = {
     // Greek

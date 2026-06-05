@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 
 #include "quantum.h"
-#include "unicode.h"
+#include "umap.h"
 
 // L2: F/G=language; thumb 3rd/4th/5th=OSL(3/4/5) Greek/Italian/Math.
 // Unicode: QMK UNICODEMAP + UC_WINC (WinCompose on Windows).
