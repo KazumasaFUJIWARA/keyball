@@ -3,6 +3,9 @@
 #
 # Requires: gh (authenticated), git repo with origin pointing to your fork
 #
+# Downloaded hex files are kept under firmware/<keyboard>-<keymap>/ with a
+# timestamp prefix (not overwritten). A latest.hex symlink points to the newest.
+#
 # Examples:
 #   bin/fetch-firmware.sh keyball44 my_keymap
 #   bin/fetch-firmware.sh keyball44 my_keymap --branch feature/my-keymap
@@ -23,9 +26,12 @@ usage() {
   echo
   echo "Options:"
   echo "  --branch BRANCH       Git ref to build (default: current branch)"
-  echo "  --output DIR          Download directory (default: firmware/<keyboard>-<keymap>/)"
+  echo "  --output DIR          Save directory (default: firmware/<keyboard>-<keymap>/)"
   echo "  --download-only       Skip build; fetch latest successful artifact on branch"
   echo "  -h, --help            Show this help"
+  echo
+  echo "Each download is saved as YYYYMMDD-HHMMSS_<original>.hex (existing files kept)."
+  echo "latest.hex in the output directory is a symlink to the newest build."
   exit "${1:-0}"
 }
 
@@ -104,15 +110,25 @@ else
   fi
 fi
 
-rm -rf "${output:?}/"*
-gh run download "$run_id" -D "$output" -n "$artifact"
+tmpdir=$(mktemp -d)
+trap 'rm -rf "$tmpdir"' EXIT INT TERM
 
-hex=$(find "$output" -name '*.hex' | head -n 1)
+gh run download "$run_id" -D "$tmpdir" -n "$artifact"
+
+hex=$(find "$tmpdir" -name '*.hex' | head -n 1)
 if [ -z "$hex" ]; then
-  echo "Download finished but no .hex file found under ${output}" >&2
+  echo "Download finished but no .hex file found in artifact ${artifact}" >&2
   exit 1
 fi
 
+timestamp=$(date +%Y%m%d-%H%M%S)
+basename=$(basename "$hex")
+saved="${output}/${timestamp}_${basename}"
+
+mv "$hex" "$saved"
+ln -sf "$(basename "$saved")" "${output}/latest.hex"
+
 echo
-echo "Downloaded: ${hex}"
+echo "Downloaded: ${saved}"
+echo "Latest:     ${output}/latest.hex"
 echo "Run:        https://github.com/$(gh repo view --json nameWithOwner -q .nameWithOwner)/actions/runs/${run_id}"
