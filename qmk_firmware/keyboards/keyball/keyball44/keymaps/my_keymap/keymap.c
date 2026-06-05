@@ -40,7 +40,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [2] = LAYOUT(
     _______  , 0x021E   , 0x021F   , 0x0220   , 0x0221   , 0x0222   ,                                        0x0223   , 0x0224   , 0x0225   , 0x0226   , 0x022E   , _______  ,
-    _______  , 0x002F   , 0x002E   , 0x0289   , KC_LANG1 , KC_LANG2 ,                                        MO(3)    , MO(4)    , 0x0230   , 0x0231   , 0x022D   , 0x021F   ,
+    _______  , 0x002F   , 0x002E   , 0x0289   , 0x0090   , 0x0091   ,                                        MO(3)    , MO(4)    , 0x0230   , 0x0231   , 0x022D   , 0x021F   ,
     _______  , KC_NO    , KC_NO    , 0x0149   , 0x0249   , KC_NO    ,                                        KC_NO    , KC_NO    , 0x0030   , 0x0031   , 0x0238   , 0x0289   ,
               0x0027   , KC_DOT   , 0x0090   , 0x0091   , 0x0091   ,                                        0x0950   , 0x094F   , _______
   ),
