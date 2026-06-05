@@ -53,8 +53,9 @@ OSL は **タップ1回**。離したあと **次の1キーだけ** 対象レイ
 Keyball にテンキーがないため、QMK 標準の `register_unicode()` は使わず、
 `keymap.c` の `register_unicode_numpadless()` が `UC()` を処理します。
 
-- 方式: **Alt + `+`（メインキーボード）+ 4桁16進**
-- 例: è (U+00E8) → Alt + + + `00E8`
+- 方式: **Alt + 10進コード**（メインキーの数字行）
+- 例: è (U+00E8) → Alt + `0232`
+- 旧方式（Alt + Shift + `=` + 16進）は **Windows Terminal のペイン分割** と衝突するため廃止
 
 ### 試す前の設定
 
