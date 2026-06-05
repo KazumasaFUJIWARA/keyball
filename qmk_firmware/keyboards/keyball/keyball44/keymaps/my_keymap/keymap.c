@@ -20,13 +20,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "quantum.h"
 
-// L2: F/G=language, H/J=MO(3)/MO(4). L3 Greek, L4 Italian, L5 Settings.
+// L2: F/G=language, H/J/K=MO(3)/MO(4)/MO(5). L3 Greek, L4 Italian, L5 Math, L6 Settings.
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT(
     KC_ESC   , KC_Q     , KC_W     , 0x2108   , KC_R     , KC_T     ,                                        KC_Y     , KC_U     , 0x310C   , KC_O     , KC_P     , KC_BSPC  ,
-    KC_TAB   , 0x2104   , 0x2416   , 0x4207   , 0x4109   , 0x450A   ,                                        0x450B   , 0x410D   , 0x420E   , 0x240F   , 0x3133   , 0x0034   ,
+    KC_TAB   , 0x2104   , 0x2416   , 0x4207   , 0x4109   , 0x460A   ,                                        0x460B   , 0x410D   , 0x420E   , 0x240F   , 0x3133   , 0x0034   ,
     0x00D3   , 0x281D   , 0x231B   , KC_C     , KC_V     , KC_B     ,                                        KC_N     , KC_M     , KC_COMM  , KC_DOT   , 0x2838   , 0x0087   ,
               0x0088   , 0x0091   , 0x00D2   , 0x00D1   , 0x222C   ,                                        KC_ENT   , KC_LSFT  , 0x004C
   ),
@@ -40,7 +40,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [2] = LAYOUT(
     _______  , 0x021E   , 0x021F   , 0x0220   , 0x0221   , 0x0222   ,                                        0x0223   , 0x0224   , 0x0225   , 0x0226   , 0x022E   , _______  ,
-    _______  , 0x002F   , 0x002E   , 0x0289   , 0x0090   , 0x0091   ,                                        MO(3)    , MO(4)    , 0x0230   , 0x0231   , 0x022D   , 0x021F   ,
+    _______  , 0x002F   , 0x002E   , 0x0289   , 0x0090   , 0x0091   ,                                        MO(3)    , MO(4)    , MO(5)    , 0x0231   , 0x022D   , 0x021F   ,
     _______  , KC_NO    , KC_NO    , 0x0149   , 0x0249   , KC_NO    ,                                        KC_NO    , KC_NO    , 0x0030   , 0x0031   , 0x0238   , 0x0289   ,
               0x0027   , KC_DOT   , 0x0090   , 0x0091   , 0x0091   ,                                        0x0950   , 0x094F   , _______
   ),
@@ -61,8 +61,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
               _______  , _______  , _______  , _______  , _______  ,                                        _______  , _______  , _______
   ),
 
-  // L5: Settings / RGB / Keyball
+  // L5: Math symbols (Unicode)
   [5] = LAYOUT(
+    _______  , UC(0x00B1), UC(0x00D7), UC(0x00F7), UC(0x2260), UC(0x2248),                                        UC(0x2264), UC(0x2265), UC(0x221E), UC(0x03C0), UC(0x00B0), _______  ,
+    _______  , UC(0x2200), UC(0x2203), UC(0x2208), UC(0x2211), UC(0x222B),                                        UC(0x221A), UC(0x2202), UC(0x2207), UC(0x2282), UC(0x2229), _______  ,
+    _______  , UC(0x2205), UC(0x222A), UC(0x2295), UC(0x2192), UC(0x2190),                                        UC(0x2194), UC(0x21D2), UC(0x21D4), UC(0x22A5), UC(0x2220), _______  ,
+              _______  , _______  , _______  , _______  , _______  ,                                        _______  , _______  , _______
+  ),
+
+  // L6: Settings / RGB / Keyball
+  [6] = LAYOUT(
     0x7820   , 0x003A   , 0x003B   , 0x003C   , 0x003D   , 0x003E   ,                                        0x003F   , 0x0040   , 0x0041   , 0x0042   , 0x0043   , 0x0044   ,
     0x7821   , 0x7823   , 0x7825   , 0x7827   , _______  , 0x7E08   ,                                        0x7831   , 0x7832   , 0x7833   , 0x7834   , _______  , _______  ,
     0x7822   , 0x7824   , 0x7826   , 0x7828   , SCRL_DVI , 0x7E09   ,                                        0x7E05   , 0x7E03   , 0x7E02   , 0x7E04   , _______  , 0x7E01   ,
@@ -72,8 +80,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // clang-format on
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-    // Scroll mode on settings layer (L5)
-    keyball_set_scroll_mode(get_highest_layer(state) == 5);
+    // Scroll mode on settings layer (L6)
+    keyball_set_scroll_mode(get_highest_layer(state) == 6);
     return state;
 }
 
