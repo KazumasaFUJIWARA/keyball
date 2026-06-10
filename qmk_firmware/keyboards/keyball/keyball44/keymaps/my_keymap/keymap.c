@@ -42,6 +42,7 @@ enum unicode_names {
     U_PI,
     U_RHO,
     U_SIGMA,
+    U_FINAL_SIGMA,
     U_TAU,
     U_UPS,
     U_PHI,
@@ -105,6 +106,7 @@ const uint32_t PROGMEM unicode_map[] = {
     [U_PI]     = 0x03C0,
     [U_RHO]    = 0x03C1,
     [U_SIGMA]  = 0x03C3,
+    [U_FINAL_SIGMA] = 0x03C2,
     [U_TAU]    = 0x03C4,
     [U_UPS]    = 0x03C5,
     [U_PHI]    = 0x03C6,
@@ -174,7 +176,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   // L3: Greek (Unicode via X())
   [3] = LAYOUT(
-    _______  , _______  , X(U_EPS) , X(U_RHO) , X(U_TAU) , X(U_UPS) ,                                        X(U_THETA), X(U_IOTA), X(U_OMI) , X(U_PI)  , X(U_OMEGA), _______  ,
+    _______  , _______  , X(U_FINAL_SIGMA), X(U_EPS), X(U_RHO) , X(U_TAU) ,                                        X(U_UPS) , X(U_THETA), X(U_IOTA), X(U_OMI) , X(U_PI)  , _______  ,
     _______  , X(U_ALPHA), X(U_SIGMA), X(U_DELTA), X(U_PHI) , X(U_GAMMA),                                        X(U_ETA) , X(U_XI)  , X(U_KAPPA), X(U_LAMBDA), _______  , _______  ,
     _______  , X(U_ZETA), X(U_CHI) , X(U_PSI) , X(U_OMEGA), X(U_BETA),                                        X(U_NU)  , X(U_MU)  , _______  , _______  , _______  , _______  ,
               _______  , _______  , _______  , _______  , _______  ,                                        _______  , _______  , _______
